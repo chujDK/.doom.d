@@ -33,7 +33,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one
-      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 26 :weight 'normal)
+      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 26
+                           :weight 'normal)
       doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 28))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -77,5 +78,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; 80 ruler
+(setq display-fill-column-indicator-column 80)
+(global-display-fill-column-indicator-mode 1)
