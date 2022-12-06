@@ -82,4 +82,13 @@
 
 ;; 80 ruler
 (setq display-fill-column-indicator-column 80)
-(global-display-fill-column-indicator-mode 1)
+;; we don't want a ruler in shell right? ..
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
+;; always enable wakatime
+(global-wakatime-mode t)
+
+;; use a better chinese input
+(setq default-input-method "rime")
+(setq rime-show-candidate 'posframe)
+(setq rime-user-data-dir "~/.local/share/fcitx5/rime")
