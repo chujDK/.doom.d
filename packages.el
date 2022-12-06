@@ -3,7 +3,6 @@
 
 ;; chinese input
 (package! rime)
-
 ;; waka time
 (package! wakatime-mode)
 

@@ -33,9 +33,9 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one
-      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 26
+      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 24
                            :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 28))
+      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 26))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
