@@ -92,3 +92,43 @@
 (setq default-input-method "rime")
 (setq rime-show-candidate 'posframe)
 (setq rime-user-data-dir "~/.local/share/fcitx5/rime")
+
+;; org paste image from windows host
+(defun org-paste-image-from-windows ()
+  "Paste an image into a time stamped unique-named file in the ~/.org/picture
+and insert a link to this file"
+  (interactive)
+  (let* ((target-file
+          (concat
+           (make-temp-name
+            (concat
+             "~/.org/picture/"
+             (format-time-string "%Y%m%d_%H%M%S_")))
+           "\.png"))
+         (windows-path
+          (wsl-to-windows-path target-file))
+         (ps-script
+          (concat "(Get-Clipboard -Format image).Save('" windows-path "')")))
+         (powershell ps-script)
+
+         (if (file-exists-p target-file)
+             (progn (insert (concat "[[" target-file "]]"))
+                    (org-display-inline-images)
+                    (message (concat "saving to " ps-script "..."))
+                    )
+           (user-error
+            "Pasting the image failed.."))
+         ))
+
+(defun wsl-to-windows-path (path)
+  "Conver a wsl unix path to its windows path"
+  (substring
+   (shell-command-to-string (concat "wslpath -w " path)) 0 -1))
+
+(defun powershell (script)
+  "Execute the given script within a powershell and return its return value.
+Note: pwsh should be a valid command that can start a powershell, for example,
+make a symblic link to powershell.exe to ~/.local/bin/powershell"
+  (call-process "powershell" nil nil nil
+                "-noprofile"
+                "-Command" (concat "& {" script "}")))
