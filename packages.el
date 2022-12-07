@@ -5,6 +5,11 @@
 (package! rime)
 ;; waka time
 (package! wakatime-mode)
+;; let's see mine key frequent
+(package! keyfreq)
+
+;; use google-c-style
+(package! google-c-style)
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or

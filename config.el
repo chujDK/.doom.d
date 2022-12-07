@@ -85,6 +85,18 @@
 ;; we don't want a ruler in shell right? ..
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
+;; don't use tab
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
+;; google c style
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;; i want to see if there is a tab or whitespace
+(global-whitespace-mode 1)
+;; better and better syntax highliting! more color, more fun!
+(global-tree-sitter-mode)
+
 ;; always enable wakatime
 (global-wakatime-mode t)
 
@@ -145,4 +157,6 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
         evil-previous-line
         evil-next-line
         evil-backward-char
-        evil-forward-char))
+        evil-forward-char
+        evil-force-normal-state
+        evil-insert))
