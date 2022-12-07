@@ -79,6 +79,7 @@
 ;; they are implemented.
 
 ;;; global enable mode
+(global-display-line-numbers-mode)
 (global-tree-sitter-mode) ;; only in the mode, won't highlight
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
