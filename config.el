@@ -94,6 +94,7 @@
 (setq rime-user-data-dir "~/.local/share/fcitx5/rime")
 
 ;; org paste image from windows host
+(setq org-startup-with-inline-images t)
 (defun org-paste-image-from-windows ()
   "Paste an image into a time stamped unique-named file in the ~/.org/picture
 and insert a link to this file"
