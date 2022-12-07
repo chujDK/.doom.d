@@ -39,7 +39,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -78,32 +78,32 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;;; global enable mode
+(global-tree-sitter-mode) ;; only in the mode, won't highlight
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+;; always enable wakatime
+(global-wakatime-mode t)
+
+;;; hooks
+;; i want to see if there is a tab or whitespace in prog mode
+(setq-default tree-sitter-after-on-hook (lambda () (tree-sitter-hl-mode t)))
+(setq-default prog-mode-hook (lambda () (whitespace-mode t)))
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; we don't want a ruler in shell right? so only in prog mode
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+;; google c style
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;;; other (i'm consider to name the other)
 
 ;; 80 ruler
 (setq display-fill-column-indicator-column 80)
-;; we don't want a ruler in shell right? ..
-(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 ;; don't use tab
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
-
-;; google c style
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-
-;; i want to see if there is a tab or whitespace
-(global-whitespace-mode 1)
-;; disable whitespace in org mode
-(add-hook 'org-mode (lambda () (whitespace-mode nil)))
-
-;; better and better syntax highlighting! more color, more fun!
-;; auto start it by setting tree-sitter-after-in-hook
-(global-tree-sitter-mode)
-(setq-default tree-sitter-after-on-hook (lambda () (tree-sitter-hl-mode t)))
-
-;; always enable wakatime
-(global-wakatime-mode t)
 
 ;; use a better chinese input
 (setq default-input-method "rime")
@@ -151,8 +151,6 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
                 "-noprofile"
                 "-Command" (concat "& {" script "}")))
 
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
 (setq keyfreq-excluded-commands
       '(self-insert-command
         forward-char
