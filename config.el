@@ -166,3 +166,9 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
         evil-force-normal-state
         evil-insert
         term-send-raw))
+
+;;; key bindings
+(map! :localleader
+      :map org-mode-map
+      :prefix "l"
+      "p" #'org-paste-image-from-windows)
