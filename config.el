@@ -96,7 +96,6 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 ;; google c style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'term-mode-hook #'eterm-256color-mode)
 
 ;;; other (i'm consider to name the other)
 
