@@ -94,8 +94,13 @@
 
 ;; i want to see if there is a tab or whitespace
 (global-whitespace-mode 1)
-;; better and better syntax highliting! more color, more fun!
+;; disable whitespace in org mode
+(add-hook 'org-mode (lambda () (whitespace-mode nil)))
+
+;; better and better syntax highlighting! more color, more fun!
+;; auto start it by setting tree-sitter-after-in-hook
 (global-tree-sitter-mode)
+(setq-default tree-sitter-after-on-hook (lambda () (tree-sitter-hl-mode t)))
 
 ;; always enable wakatime
 (global-wakatime-mode t)
@@ -159,4 +164,5 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
         evil-backward-char
         evil-forward-char
         evil-force-normal-state
-        evil-insert))
+        evil-insert
+        term-send-raw))
