@@ -133,3 +133,16 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
   (call-process "powershell" nil nil nil
                 "-noprofile"
                 "-Command" (concat "& {" script "}")))
+
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+(setq keyfreq-excluded-commands
+      '(self-insert-command
+        forward-char
+        backward-char
+        previous-line
+        next-line
+        evil-previous-line
+        evil-next-line
+        evil-backward-char
+        evil-forward-char))
