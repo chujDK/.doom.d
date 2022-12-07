@@ -96,6 +96,9 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 ;; google c style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+;; better indent guide
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq-default highlight-indent-guides-method 'character)
 
 ;;; other (i'm consider to name the other)
 
