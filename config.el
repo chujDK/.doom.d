@@ -99,6 +99,9 @@
 ;; better indent guide
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq-default highlight-indent-guides-method 'character)
+;; profile startup, comment always!
+;;(require 'benchmark-init)
+;;(add-hook 'doom-first-input-hook #'benchmark-init/deactivate)
 
 ;;; other (i'm consider to name the other)
 
