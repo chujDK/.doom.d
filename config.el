@@ -198,3 +198,13 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 )
+
+;;;#############################################################################
+;;; org
+;;;#############################################################################
+(after! org
+;;; org-journal
+(setq org-journal-file-format "%Y%m%d.org")
+;;; org-agenda
+(setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+)
