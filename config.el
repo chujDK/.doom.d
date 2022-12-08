@@ -171,7 +171,8 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
         evil-forward-char
         evil-force-normal-state
         evil-insert
-        term-send-raw))
+        term-send-raw
+        org-self-insert-command))
 
 ;;; key bindings
 (map! :localleader
