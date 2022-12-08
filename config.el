@@ -37,6 +37,7 @@
       doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 24
                            :weight 'normal)
       doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 26))
+(set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -87,9 +88,20 @@
 ;; always enable wakatime
 (global-wakatime-mode t)
 
+(setq server-window 'pop-to-buffer)
+
 ;;; hooks
+;; tree-sitter
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+; highlight variable refecrence too
+(tree-sitter-hl-add-patterns 'c
+  [(identifier) @variable])
+(tree-sitter-hl-add-patterns 'cpp
+  [(identifier) @variable])
+(tree-sitter-hl-add-patterns 'rust
+  [(identifier) @variable])
+
 ;; i want to see if there is a tab or whitespace in prog mode
-(setq-default tree-sitter-after-on-hook (lambda () (tree-sitter-hl-mode t)))
 (setq-default prog-mode-hook (lambda () (whitespace-mode t)))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -113,52 +125,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
-;; use a better chinese input
-(setq default-input-method "rime")
-(setq rime-show-candidate 'posframe)
-(setq rime-user-data-dir "~/.local/share/fcitx5/rime")
-
-;; org paste image from windows host
-(setq org-startup-with-inline-images t)
-(defun org-paste-image-from-windows ()
-  "Paste an image into a time stamped unique-named file in the ~/.org/picture
-and insert a link to this file"
-  (interactive)
-  (let* ((target-file
-          (concat
-           (make-temp-name
-            (concat
-             "~/.org/picture/"
-             (format-time-string "%Y%m%d_%H%M%S_")))
-           "\.png"))
-         (windows-path
-          (wsl-to-windows-path target-file))
-         (ps-script
-          (concat "(Get-Clipboard -Format image).Save('" windows-path "')")))
-         (powershell ps-script)
-
-         (if (file-exists-p target-file)
-             (progn (insert (concat "[[" target-file "]]"))
-                    (org-display-inline-images)
-                    (message (concat "saving to " ps-script "..."))
-                    )
-           (user-error
-            "Pasting the image failed.."))
-         ))
-
-(defun wsl-to-windows-path (path)
-  "Conver a wsl unix path to its windows path"
-  (substring
-   (shell-command-to-string (concat "wslpath -w " path)) 0 -1))
-
-(defun powershell (script)
-  "Execute the given script within a powershell and return its return value.
-Note: pwsh should be a valid command that can start a powershell, for example,
-make a symblic link to powershell.exe to ~/.local/bin/powershell"
-  (call-process "powershell" nil nil nil
-                "-noprofile"
-                "-Command" (concat "& {" script "}")))
-
 (setq keyfreq-excluded-commands
       '(self-insert-command
         forward-char
@@ -172,7 +138,10 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
         evil-force-normal-state
         evil-insert
         term-send-raw
-        org-self-insert-command))
+        org-self-insert-command
+        vterm--self-insert
+        evil-normal-state
+        exit-minibuffer))
 
 ;;; key bindings
 (map! :localleader
@@ -186,6 +155,7 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
       org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
 (add-to-list 'org-latex-logfiles-extensions "bbl")
 (add-to-list 'org-latex-logfiles-extensions "tex")
+(setq org-latex-remove-logfiles t) ;; ensure the cleanup
 (add-to-list 'org-latex-packages-alist '("newfloat" "minted"))
 (add-to-list 'org-latex-classes
              '("elegentpaper"
@@ -206,6 +176,72 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
 (after! org
 ;;; org-journal
 (setq org-journal-file-format "%Y%m%d.org")
+(setq org-journal-file-header "#+LATEX_COMPILER: xelatex
+#+LATEX_CLASS: elegentpaper
+#+OPTIONS: prop:t\n\n")
 ;;; org-agenda
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
 )
+
+;;;#############################################################################
+;;; only in wsl
+;;;#############################################################################
+(when (string-match-p "WSL" (shell-command-to-string "uname -a"))
+  ;; use windows browser
+  ;; note:
+  ;; 1. this could make the org reveal.js generated html failed to find
+  ;; picture, as our picture pasting is using a absolute path
+  ;; 2. make sure to have a windows-browser in path
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "windows-browser")
+  ;; use a better chinese input
+  (setq default-input-method "rime")
+  (setq rime-show-candidate 'posframe)
+  (setq rime-user-data-dir "~/.doom.d/rime")
+
+  ;; org paste image from windows host
+  (setq org-startup-with-inline-images t)
+  (defun org-paste-image-from-windows ()
+    "Paste an image into a time stamped unique-named file in the ~/.org/picture
+  and insert a link to this file"
+    (interactive)
+    (let* ((target-file
+            (concat
+             (make-temp-name
+              (concat
+               "~/.org/picture/"
+               (format-time-string "%Y%m%d_%H%M%S_")))
+             "\.png"))
+           (windows-path
+            (wsl-to-windows-path target-file))
+           (ps-script
+            (concat "(Get-Clipboard -Format image).Save('" windows-path "')")))
+           (powershell ps-script)
+
+           (if (file-exists-p target-file)
+               (progn (insert (concat "[[" target-file "]]"))
+                      (org-display-inline-images)
+                      (message (concat "saving to " ps-script "..."))
+                      )
+             (user-error
+              "Pasting the image failed.."))
+           ))
+
+  (defun wsl-to-windows-path (path)
+    "Conver a wsl unix path to its windows path"
+    (substring
+     (shell-command-to-string (concat "wslpath -w " path)) 0 -1))
+
+  (defun powershell (script)
+    "Execute the given script within a powershell and return its return value.
+  Note: pwsh should be a valid command that can start a powershell, for example,
+  make a symblic link to powershell.exe to ~/.local/bin/powershell"
+    (call-process "powershell" nil nil nil
+                  "-noprofile"
+                  "-Command" (concat "& {" script "}")))
+)
+
+;;; emms
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)

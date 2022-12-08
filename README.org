@@ -1,0 +1,21 @@
+#+title: my Doom Emacs config
+
+一个 Emacs 初学者的 doom emacs 配置
+
+* 添加的功能（我还记得的）
++ 对 WSL 的支持
+  + 使用 windows 的浏览器
+    #+begin_src elisp
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "windows-browser")
+    #+end_src
+    替换 windows-browser 为 windows 下浏览器的可执行文件路径即可（我的做法是在 =~/.local/bin/= 中放了一个指向 chrome 的符号链接。
+    这样有个小问题：打开 wsl 内文件时会出事，不过我主要的浏览器需求还是 =K= 键搜索，所以问题不大
+  + 自动将 windows 剪贴板中图片复制到 =~/.org/picture= 中，然后在 org 文档中插入链接
+    执行函数 =org-paste-image-from-windows= 即可（可以用 =M-x= 或者 =SPC h f=）
+    也添加了调用改函数的快捷键： =SPC m l p=
++ 更好的代码高亮
+  对 c c++ rust 添加了 =(identifier) @variable= 规则，这样变量的引用也有高亮了。
+  在未来，[[https://github.com/emacs-tree-sitter/tree-sitter-langs][tree-sitter-langs]] 更新后，这个配置可以取出
+* 准备做的事
+让配置文件更模块化
