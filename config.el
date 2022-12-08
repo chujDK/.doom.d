@@ -178,3 +178,6 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
       :map org-mode-map
       :prefix "l"
       "p" #'org-paste-image-from-windows)
+
+;;; latex
+(setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
