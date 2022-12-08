@@ -180,4 +180,21 @@ make a symblic link to powershell.exe to ~/.local/bin/powershell"
       "p" #'org-paste-image-from-windows)
 
 ;;; latex
-(setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
+(after! ox-latex
+(setq org-latex-src-block-backend 'minted
+      org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
+(add-to-list 'org-latex-logfiles-extensions "bbl")
+(add-to-list 'org-latex-logfiles-extensions "tex")
+(add-to-list 'org-latex-packages-alist '("newfloat" "minted"))
+(add-to-list 'org-latex-classes
+             '("elegentpaper"
+               "\\documentclass[lang=cn]{elegantpaper}
+               [NO-DEFAULT-PACKAGES]
+               [PACKAGES]
+               [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+)
