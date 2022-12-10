@@ -240,11 +240,3 @@
                   "-noprofile"
                   "-Command" (concat "& {" script "}")))
 )
-
-;;; emms
-(require 'emms-setup)
-(emms-all)
-(emms-default-players)
-(setq emms-playlist-buffer-name "*Music*")
-(setq-default emms-source-file-default-directory "~/Music")
-(setq emms-source-file-directory-tree-function #'emms-source-file-directory-tree-find)
