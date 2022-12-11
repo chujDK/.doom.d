@@ -17,5 +17,14 @@
 + 更好的代码高亮
   对 c c++ rust 添加了 =(identifier) @variable= 规则，这样变量的引用也有高亮了。
   在未来，[[https://github.com/emacs-tree-sitter/tree-sitter-langs][tree-sitter-langs]] 更新后，这个配置可以取出
+  好与不好是相对的，这样添加比较暴力，我感觉看的反而辨识度降低了，所以暂时关掉了。
++ 使用 elegent_paper 模板导出 pdf
+* 需要的一些依赖
++ 字体
+  + JetBrainsMono Nerd Font
+  + Apple Color Emoji
+  + LiHei Pro
++ texlive（最好直接装最新完整版的，无惧依赖）
++ ...（想到再补）
 * 准备做的事
 让配置文件更模块化
