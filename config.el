@@ -34,9 +34,9 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-dark+
       doom-dark+-blue-modeline t
-      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 24
+      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 25
                            :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 26))
+      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 25))
 (set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -94,12 +94,12 @@
 ;; tree-sitter
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 ; highlight variable refecrence too
-(tree-sitter-hl-add-patterns 'c
-  [(identifier) @variable])
-(tree-sitter-hl-add-patterns 'cpp
-  [(identifier) @variable])
-(tree-sitter-hl-add-patterns 'rust
-  [(identifier) @variable])
+;(tree-sitter-hl-add-patterns 'c
+;  [(identifier) @variable])
+;(tree-sitter-hl-add-patterns 'cpp
+;  [(identifier) @variable])
+;(tree-sitter-hl-add-patterns 'javascript
+;  [(identifier) @variable])
 
 ;; i want to see if there is a tab or whitespace in prog mode
 (setq-default prog-mode-hook (lambda () (whitespace-mode t)))
