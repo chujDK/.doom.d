@@ -100,6 +100,13 @@
 ;  [(identifier) @variable])
 ;(tree-sitter-hl-add-patterns 'javascript
 ;  [(identifier) @variable])
+(setq lsp-clients-clangd-args '("-j=8"
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"
+                                "--header-insertion-decorators=0"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; i want to see if there is a tab or whitespace in prog mode
 (setq-default prog-mode-hook (lambda () (whitespace-mode t)))
