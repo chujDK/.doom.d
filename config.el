@@ -108,12 +108,20 @@
                                 "--header-insertion-decorators=0"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
-;; i want to see if there is a tab or whitespace in prog mode
-(setq-default prog-mode-hook (lambda () (whitespace-mode t)))
-
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; we don't want a ruler in shell right? so only in prog mode
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+;; i want to see if there is a tab or whitespace in prog mode
+(add-hook 'prog-mode-hook (lambda ()
+                            (whitespace-mode t)
+                            (rainbow-delimiters-mode)
+                            ;; set the foreground color
+                            (setq buffer-face-mode-face '(:foreground "DeepSkyBlue"))
+                            (buffer-face-mode)))
+(add-hook 'go-mode-hook
+          (lambda ()
+            (setq whitespace-style '(face empty trailing lines-tail))))
+
 ;; google c style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 ;; better indent guide
