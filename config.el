@@ -34,9 +34,9 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-dark+
       doom-dark+-blue-modeline t
-      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 25
+      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20
                            :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 25))
+      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 20))
 (set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -93,13 +93,6 @@
 ;;; hooks
 ;; tree-sitter
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-; highlight variable refecrence too
-;(tree-sitter-hl-add-patterns 'c
-;  [(identifier) @variable])
-;(tree-sitter-hl-add-patterns 'cpp
-;  [(identifier) @variable])
-;(tree-sitter-hl-add-patterns 'javascript
-;  [(identifier) @variable])
 (setq lsp-clients-clangd-args '("-j=8"
                                 "--background-index"
                                 "--clang-tidy"
@@ -163,7 +156,9 @@
       :prefix "l"
       "p" #'org-paste-image-from-windows)
 
+;;;#############################################################################
 ;;; latex
+;;;#############################################################################
 (after! ox-latex
 (setq org-latex-src-block-backend 'minted
       org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
@@ -187,6 +182,7 @@
 ;;;#############################################################################
 ;;; org
 ;;;#############################################################################
+(setq org-roam-directory "~/org/roam")
 (after! org
 ;;; org-journal
 (setq org-journal-file-format "%Y%m%d.org")
