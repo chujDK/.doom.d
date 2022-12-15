@@ -254,3 +254,14 @@
                   "-noprofile"
                   "-Command" (concat "& {" script "}")))
 )
+
+;;; custom set face
+(custom-set-faces
+  '(rainbow-delimiters-depth-1-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
+  '(rainbow-delimiters-depth-2-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
+  '(rainbow-delimiters-depth-3-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
+  '(rainbow-delimiters-depth-4-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "beige")))))
