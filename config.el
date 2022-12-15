@@ -196,6 +196,10 @@
 #+OPTIONS: prop:t\n\n")
 ;;; org-agenda
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+; open with all title close
+(setq org-startup-folded t)
+(setq org-log-done 'time)
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 )
 
 ;;;#############################################################################
