@@ -1,15 +1,60 @@
+:PROPERTIES:
+#+LATEX_COMPILER: xelatex
+#+LATEX_CLASS: elegentpaper
+#+OPTIONS: prop:t
+:END:
+#+title: Doom Emacs literal configuration
+#+author: chuj
+
+* Misc
+** Lexical-binding
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
+#+end_src
+** User info
+Some functionality uses this to identify you, e.g. GOG configuration, email clients, file templates and snippets. It is optional.
+#+begin_src elisp
 (setq user-full-name "chuj"
       user-mail-address "1768485949@qq.com")
+#+end_src
+** Keyfreq blacklist
+#+begin_src emacs-lisp
+(setq keyfreq-excluded-commands
+      '(self-insert-command
+        forward-char
+        backward-char
+        previous-line
+        next-line
+        evil-previous-line
+        evil-next-line
+        evil-backward-char
+        evil-forward-char
+        evil-force-normal-state
+        evil-insert
+        term-send-raw
+        org-self-insert-command
+        vterm--self-insert
+        evil-normal-state
+        exit-minibuffer))
+#+end_src
+** Not tab
+don't use tab
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+#+end_src
+* Theme
+** Main Theme
+use doom-dark+ theme (a vs-code like dark theme), and use a blue modeline
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-dark+
+      doom-dark+-blue-modeline t)
+#+end_src
+** Font
+使用 JetBrains Mono 字体作为主要字体
 
+中文字体使用 LiHei Pro
+#+begin_src emacs-lisp
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -33,79 +78,62 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dark+
-      doom-dark+-blue-modeline t
-      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20
                            :weight 'normal)
       doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 20))
 (set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
+#+end_src
+** Line Number
+This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
+
+#+begin_src emacs-lisp
 (setq display-line-numbers-type 'relative)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
-;;; global enable mode
+#+end_src
+** Ruler
+a 80 ruler
+#+begin_src emacs-lisp
+(setq display-fill-column-indicator-column 80)
+;; we don't want a ruler in shell right? so only in prog mode
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+#+end_src
+** Ident guide
+#+begin_src emacs-lisp
+;; better indent guide
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq-default highlight-indent-guides-method 'character)
+#+end_src
+** Custom set face
+#+begin_src emacs-lisp
+;;; custom set face
+(custom-set-faces
+  '(rainbow-delimiters-depth-1-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
+  '(rainbow-delimiters-depth-2-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
+  '(rainbow-delimiters-depth-3-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
+  '(rainbow-delimiters-depth-4-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "beige")))))
+#+end_src
+** Full screen
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+* Global enable mode
+#+begin_src emacs-lisp
 (global-display-line-numbers-mode)
 (global-tree-sitter-mode) ;; only in the mode, won't highlight
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 ;; always enable wakatime
 (global-wakatime-mode t)
+#+end_src
 
-(setq server-window 'pop-to-buffer)
-
-;;; hooks
-;; tree-sitter
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-(setq lsp-clients-clangd-args '("-j=8"
-                                "--background-index"
-                                "--clang-tidy"
-                                "--completion-style=detailed"
-                                "--header-insertion=never"
-                                "--header-insertion-decorators=0"))
-(after! lsp-clangd (set-lsp-priority! 'clangd 2))
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-;; we don't want a ruler in shell right? so only in prog mode
-(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
-;; i want to see if there is a tab or whitespace in prog mode
+* Programming
+** prog-mode hook
+*** default buffer face
+#+begin_src emacs-lisp
 (add-hook 'prog-mode-hook
           (lambda ()
             (whitespace-mode t)
@@ -114,52 +142,58 @@
             (setq buffer-face-mode-face '(:foreground "DeepSkyBlue"))
             (buffer-face-mode)
             ))
+#+end_src
+** Syntax highlight
+*** tree-sitter
+always enable tree-sitter
+#+begin_src emacs-lisp
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+#+end_src
+** C/C++
+*** lsp
+#+begin_src emacs-lisp
+(setq lsp-clients-clangd-args '("-j=8"
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"
+                                "--header-insertion-decorators=0"))
 
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
+#+end_src
+*** format
+#+begin_src emacs-lisp
 ;; google c style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
-;; better indent guide
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq-default highlight-indent-guides-method 'character)
-;; profile startup, comment always!
-;;(require 'benchmark-init)
-;;(add-hook 'doom-first-input-hook #'benchmark-init/deactivate)
+#+end_src
 
-;;; other (i'm consider to name the other)
-
-;; 80 ruler
-(setq display-fill-column-indicator-column 80)
-
-;; don't use tab
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
-
-(setq keyfreq-excluded-commands
-      '(self-insert-command
-        forward-char
-        backward-char
-        previous-line
-        next-line
-        evil-previous-line
-        evil-next-line
-        evil-backward-char
-        evil-forward-char
-        evil-force-normal-state
-        evil-insert
-        term-send-raw
-        org-self-insert-command
-        vterm--self-insert
-        evil-normal-state
-        exit-minibuffer))
-
-;;; key bindings
-(map! :localleader
-      :map org-mode-map
-      :prefix "l"
-      "p" #'org-paste-image-from-windows)
-
-;;;#############################################################################
-;;; latex
-;;;#############################################################################
+* Org-mode
+** General
+#+begin_src emacs-lisp
+(after! org
+  ;;; org-journal
+  (setq org-journal-file-format "%Y%m%d.org")
+  (setq org-journal-file-header "#+LATEX_COMPILER: xelatex
+  ,#+LATEX_CLASS: elegentpaper
+  ,#+OPTIONS: prop:t\n\n")
+  ;;; org-agenda
+  (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+  ; open with all title close
+  (setq org-startup-folded t)
+  (setq org-log-done 'time)
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+)
+#+end_src
+** Storage
+*** Directory
+#+begin_src emacs-lisp
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+(setq org-roam-directory "~/org/roam")
+#+end_src
+** Latex
+#+begin_src emacs-lisp
 (after! ox-latex
 (setq org-latex-src-block-backend 'minted
       org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
@@ -179,28 +213,22 @@
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 )
-
-;;;#############################################################################
-;;; org
-;;;#############################################################################
-(setq org-roam-directory "~/org/roam")
-(after! org
-;;; org-journal
-(setq org-journal-file-format "%Y%m%d.org")
-(setq org-journal-file-header "#+LATEX_COMPILER: xelatex
-#+LATEX_CLASS: elegentpaper
-#+OPTIONS: prop:t\n\n")
-;;; org-agenda
-(setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-; open with all title close
-(setq org-startup-folded t)
-(setq org-log-done 'time)
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-)
-
-;;;#############################################################################
-;;; only in wsl
-;;;#############################################################################
+#+end_src
+** Pretty
+#+begin_src emacs-lisp
+;(setq org-ellipsis "")
+#+end_src
+* Key bindings
+#+begin_src emacs-lisp
+(map! :localleader
+      :map org-mode-map
+      :prefix "l"
+      "p" #'org-paste-image-from-windows)
+#+end_src
+* Other
+** WSL setup
+添加了粘贴图片的支持
+#+begin_src emacs-lisp
 (when (string-match-p "WSL" (shell-command-to-string "uname -a"))
   ;; use windows browser
   ;; note:
@@ -255,15 +283,11 @@
                   "-noprofile"
                   "-Command" (concat "& {" script "}")))
 )
-
-;;; custom set face
-(custom-set-faces
-  '(rainbow-delimiters-depth-1-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
-  '(rainbow-delimiters-depth-2-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
-  '(rainbow-delimiters-depth-3-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
-  '(rainbow-delimiters-depth-4-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "beige")))))
+#+end_src
+** Profile startup
+在一般情况下，注释下面的代码
+#+begin_src emacs-lisp
+;; profile startup, comment always!
+;(require 'benchmark-init)
+;(add-hook 'doom-first-input-hook #'benchmark-init/deactivate)
 #+end_src
