@@ -24,7 +24,6 @@
 - [[#global-enable-mode][Global enable mode]]
 - [[#programming][Programming]]
   - [[#prog-mode-hook][prog-mode hook]]
-  - [[#lsp-mode][lsp mode]]
   - [[#syntax-highlight][Syntax highlight]]
   - [[#cc][C/C++]]
 - [[#org-mode][Org-mode]]
@@ -148,6 +147,12 @@ a 80 ruler
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
 ;  '(rainbow-delimiters-depth-3-face
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
+   '(rainbow-delimiters-depth-3-face
+     ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
+   '(rainbow-delimiters-depth-4-face
+     ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
+   '(lsp-face-semhl-interface
+     ((t (:inherit font-lock-variable-name-face))))
 ;  '(rainbow-delimiters-depth-4-face
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "beige"))))
   '(mode-line ((t (:family "Noto Sans" :height 0.9))))
@@ -190,12 +195,12 @@ a 80 ruler
 ;            (buffer-face-mode)
             ))
 #+end_src
-** lsp mode
+** Syntax highlight
+*** lsp mode
 #+begin_src elisp
 (setq lsp-semantic-tokens-enable t)
 (setq lsp-semantic-tokens-honor-refresh-requests t)
 #+end_src
-** Syntax highlight
 *** tree-sitter
 always enable tree-sitter
 #+begin_src emacs-lisp
