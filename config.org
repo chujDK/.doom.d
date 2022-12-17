@@ -45,15 +45,18 @@ don't use tab
 #+end_src
 * Theme
 ** Main Theme
-use doom-dark+ theme (a vs-code like dark theme), and use a blue modeline
++use doom-dark + theme (a vs-code like dark theme), and use a blue modeline+
+stick to doom one
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dark+
+(setq doom-theme 'doom-one
       doom-dark+-blue-modeline t)
 #+end_src
 ** Font
-使用 JetBrains Mono 字体作为主要字体
+使用 JetBrains Mono 字体作为等宽字体
 
-中文字体使用 LiHei Pro
+非等宽字体使用 Myriad Pro
+
+unicode 字体使用 /我在这里下载的[[https://github.com/samuelngs/apple-emoji-linux][Apple Color Emoji]]/
 #+begin_src emacs-lisp
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -80,9 +83,10 @@ use doom-dark+ theme (a vs-code like dark theme), and use a blue modeline
 ;; `load-theme' function. This is the default:
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20
                            :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 20))
-(set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
+      doom-variable-pitch-font (font-spec :family "Myriad Pro" :size 26)
+      doom-unicode-font (font-spec :family "Apple Color Emoji" :size 20))
 
+;(set-fontset-font "fontset-default" 'han '("LiHeiPro" . "ttf"))
 #+end_src
 ** Line Number
 This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
@@ -107,18 +111,30 @@ a 80 ruler
 #+begin_src emacs-lisp
 ;;; custom set face
 (custom-set-faces
-  '(rainbow-delimiters-depth-1-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
-  '(rainbow-delimiters-depth-2-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
-  '(rainbow-delimiters-depth-3-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
-  '(rainbow-delimiters-depth-4-face
-    ((t (:inherit rainbow-delimiters-base-face :foreground "beige")))))
+;  '(rainbow-delimiters-depth-1-face
+;    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
+;  '(rainbow-delimiters-depth-2-face
+;    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
+;  '(rainbow-delimiters-depth-3-face
+;    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
+;  '(rainbow-delimiters-depth-4-face
+;    ((t (:inherit rainbow-delimiters-base-face :foreground "beige"))))
+  '(mode-line ((t (:family "Noto Sans" :height 0.9))))
+  '(mode-line-active ((t (:family "Noto Sans" :height 0.9)))) ; For 29+
+  '(mode-line-inactive ((t (:family "Noto Sans" :height 0.9))))
+  )
 #+end_src
 ** Full screen
 #+begin_src emacs-lisp
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+** Mode line
+#+begin_src elisp
+(setq doom-modeline-highlight-modified-buffer-name t)
+(setq doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-indent-info t)
+;; used for modeline's font, see custom set face
+(setq doom-modeline-height 1)
 #+end_src
 * Global enable mode
 #+begin_src emacs-lisp
@@ -132,15 +148,15 @@ a 80 ruler
 
 * Programming
 ** prog-mode hook
-*** default buffer face
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook
           (lambda ()
             (whitespace-mode t)
             (rainbow-delimiters-mode)
+            ;; buffer-face
             ;; set the foreground color
-            (setq buffer-face-mode-face '(:foreground "DeepSkyBlue"))
-            (buffer-face-mode)
+;            (setq buffer-face-mode-face '(:foreground "plum1"))
+;            (buffer-face-mode)
             ))
 #+end_src
 ** Syntax highlight
