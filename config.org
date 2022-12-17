@@ -245,6 +245,9 @@ always enable tree-sitter
       :map org-mode-map
       :prefix "l"
       "p" #'org-paste-image-from-windows)
+(map! :after company
+      :map company-active-map
+      "<tab>" #'company-complete-selection)
 #+end_src
 * Other
 ** WSL setup
