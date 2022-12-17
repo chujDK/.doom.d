@@ -6,6 +6,37 @@
 #+title: Doom Emacs literal configuration
 #+author: chuj
 
+* Table of Contents :TOC:noexport:
+- [[#misc][Misc]]
+  - [[#lexical-binding][Lexical-binding]]
+  - [[#user-info][User info]]
+  - [[#keyfreq-blacklist][Keyfreq blacklist]]
+  - [[#not-tab][Not tab]]
+- [[#theme][Theme]]
+  - [[#main-theme][Main Theme]]
+  - [[#font][Font]]
+  - [[#line-number][Line Number]]
+  - [[#ruler][Ruler]]
+  - [[#ident-guide][Ident guide]]
+  - [[#custom-set-face][Custom set face]]
+  - [[#full-screen][Full screen]]
+  - [[#mode-line][Mode line]]
+- [[#global-enable-mode][Global enable mode]]
+- [[#programming][Programming]]
+  - [[#prog-mode-hook][prog-mode hook]]
+  - [[#lsp-mode][lsp mode]]
+  - [[#syntax-highlight][Syntax highlight]]
+  - [[#cc][C/C++]]
+- [[#org-mode][Org-mode]]
+  - [[#general][General]]
+  - [[#storage][Storage]]
+  - [[#latex][Latex]]
+  - [[#pretty][Pretty]]
+- [[#key-bindings][Key bindings]]
+- [[#other][Other]]
+  - [[#wsl-setup][WSL setup]]
+  - [[#profile-startup][Profile startup]]
+
 * Misc
 ** Lexical-binding
 #+begin_src emacs-lisp
