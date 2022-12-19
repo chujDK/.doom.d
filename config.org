@@ -12,6 +12,7 @@
   - [[#user-info][User info]]
   - [[#keyfreq-blacklist][Keyfreq blacklist]]
   - [[#not-tab][Not tab]]
+  - [[#encoding][Encoding]]
 - [[#theme][Theme]]
   - [[#main-theme][Main Theme]]
   - [[#font][Font]]
@@ -30,7 +31,7 @@
   - [[#general][General]]
   - [[#storage][Storage]]
   - [[#latex][Latex]]
-  - [[#pretty][Pretty]]
+  - [[#for-export][For export]]
 - [[#key-bindings][Key bindings]]
 - [[#other][Other]]
   - [[#wsl-setup][WSL setup]]
@@ -73,12 +74,30 @@ don't use tab
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 #+end_src
+** Encoding
+让所有的编码都变成 UTF-8
+#+begin_src emacs-lisp
+(set-language-environment               "UTF-8")     ;; System default coding
+(prefer-coding-system                   'utf-8)      ;; prefer
+(set-buffer-file-coding-system          'utf-8-unix) ;;
+(set-charset-priority                   'unicode)    ;;
+(set-clipboard-coding-system            'utf-8-unix) ;; clipboard
+(set-default-coding-systems             'utf-8)      ;; buffer/file: 打开文件时的默认编码
+(set-file-name-coding-system            'utf-8-unix) ;; unix/linux/macos
+(set-keyboard-coding-system             'utf-8-unix) ;; keyboard
+(set-next-selection-coding-system       'utf-8-unix) ;; selection
+(set-selection-coding-system            'utf-8)      ;; selection
+(set-terminal-coding-system             'utf-8-unix) ;; terminal
+(setq coding-system-for-read            'utf-8)      ;;
+(setq default-buffer-file-coding-system 'utf-8)      ;;
+(setq locale-coding-system              'utf-8)      ;; local
+#+end_src
 * Theme
 ** Main Theme
-+use doom-dark + theme (a vs-code like dark theme), and use a blue modeline+
-stick to doom one
+use doom-dark + theme (a vs-code like dark theme), and use a blue modeline
++stick to doom one+
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-one
+(setq doom-theme 'doom-dark+
       doom-dark+-blue-modeline t)
 #+end_src
 ** Font
@@ -147,17 +166,20 @@ a 80 ruler
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
 ;  '(rainbow-delimiters-depth-3-face
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "magenta1"))))
-   '(rainbow-delimiters-depth-3-face
-     ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
-   '(rainbow-delimiters-depth-4-face
-     ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
-   '(lsp-face-semhl-interface
-     ((t (:inherit font-lock-variable-name-face))))
+  '(rainbow-delimiters-depth-3-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "LightGreen"))))
+  '(rainbow-delimiters-depth-4-face
+    ((t (:inherit rainbow-delimiters-base-face :foreground "gold"))))
+  '(lsp-face-semhl-interface
+    ((t (:inherit font-lock-variable-name-face))))
 ;  '(rainbow-delimiters-depth-4-face
 ;    ((t (:inherit rainbow-delimiters-base-face :foreground "beige"))))
   '(mode-line ((t (:family "Noto Sans" :height 0.9))))
   '(mode-line-active ((t (:family "Noto Sans" :height 0.9)))) ; For 29+
   '(mode-line-inactive ((t (:family "Noto Sans" :height 0.9))))
+  ; set tab to the background color
+  '(whitespace-tab ((t (:background "1e1e1e"))))
+; (face-attribute 'default :background) => 1e1e1e
   )
 #+end_src
 ** Full screen
@@ -271,9 +293,9 @@ always enable tree-sitter
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 )
 #+end_src
-** Pretty
+** For export
 #+begin_src emacs-lisp
-;(setq org-ellipsis "")
+(setq org-export-preserve-breaks t)
 #+end_src
 * Key bindings
 #+begin_src emacs-lisp
