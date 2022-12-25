@@ -13,6 +13,7 @@
   - [[#keyfreq-blacklist][Keyfreq blacklist]]
   - [[#not-tab][Not tab]]
   - [[#encoding][Encoding]]
+  - [[#load-path][Load path]]
 - [[#theme][Theme]]
   - [[#main-theme][Main Theme]]
   - [[#font][Font]]
@@ -26,7 +27,9 @@
 - [[#programming][Programming]]
   - [[#prog-mode-hook][prog-mode hook]]
   - [[#syntax-highlight][Syntax highlight]]
+  - [[#lsp][Lsp]]
   - [[#cc][C/C++]]
+  - [[#rust][Rust]]
 - [[#org-mode][Org-mode]]
   - [[#general][General]]
   - [[#storage][Storage]]
@@ -34,7 +37,7 @@
   - [[#for-export][For export]]
 - [[#key-bindings][Key bindings]]
 - [[#other][Other]]
-  - [[#wsl-setup][WSL setup]]
+  - [[#wsl-setup--chinese-input][WSL setup && Chinese input]]
   - [[#profile-startup][Profile startup]]
 
 * Misc
@@ -66,7 +69,10 @@ Some functionality uses this to identify you, e.g. GOG configuration, email clie
         org-self-insert-command
         vterm--self-insert
         evil-normal-state
-        exit-minibuffer))
+        exit-minibuffer
+        vertico-next ; vertico candidate chose
+        mwheel-scroll
+        ))
 #+end_src
 ** Not tab
 don't use tab
@@ -91,6 +97,10 @@ don't use tab
 (setq coding-system-for-read            'utf-8)      ;;
 (setq default-buffer-file-coding-system 'utf-8)      ;;
 (setq locale-coding-system              'utf-8)      ;; local
+#+end_src
+** Load path
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/.doom.d/lisp")
 #+end_src
 * Theme
 ** Main Theme
@@ -177,8 +187,9 @@ a 80 ruler
   '(mode-line ((t (:family "Noto Sans" :height 0.9))))
   '(mode-line-active ((t (:family "Noto Sans" :height 0.9)))) ; For 29+
   '(mode-line-inactive ((t (:family "Noto Sans" :height 0.9))))
+  ;; i decide to not enable whitespace mode by default
   ; set tab to the background color
-  '(whitespace-tab ((t (:background "1e1e1e"))))
+;  '(whitespace-tab ((t (:background "1e1e1e"))))
 ; (face-attribute 'default :background) => 1e1e1e
   )
 #+end_src
