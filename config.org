@@ -229,7 +229,7 @@ a 80 ruler
 #+end_src
 ** Syntax highlight
 *** tree-sitter
-always enable tree-sitter
+enable tree-sitter for needed language
 #+begin_src emacs-lisp
 (add-hook 'go-mode-hook #'tree-sitter-hl-mode)
 #+end_src
@@ -280,9 +280,11 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
 (after! org
   ;;; org-journal
   (setq org-journal-file-format "%Y%m%d.org")
-  (setq org-journal-file-header "#+LATEX_COMPILER: xelatex
-  ,#+LATEX_CLASS: elegentpaper
-  ,#+OPTIONS: prop:t\n\n")
+  (setq org-journal-file-header ":PROPERTIES:
+#+LATEX_COMPILER: xelatex
+#+LATEX_CLASS: elegentpaper
+#+OPTIONS: prop:t
+:END:\n\n")
   ;;; org-agenda
   (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   ; open with all title close
