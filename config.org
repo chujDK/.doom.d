@@ -220,24 +220,24 @@ a 80 ruler
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook
           (lambda ()
-            (whitespace-mode t)
             (rainbow-delimiters-mode)
             ;; buffer-face
             ;; set the foreground color
-;            (setq buffer-face-mode-face '(:foreground "plum1"))
+;            (setq buffer-face-mode-face '(:foreground "#85ddff"))
 ;            (buffer-face-mode)
             ))
 #+end_src
 ** Syntax highlight
-*** lsp mode
-#+begin_src elisp
-(setq lsp-semantic-tokens-enable t)
-(setq lsp-semantic-tokens-honor-refresh-requests t)
-#+end_src
 *** tree-sitter
 always enable tree-sitter
 #+begin_src emacs-lisp
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(add-hook 'go-mode-hook #'tree-sitter-hl-mode)
+#+end_src
+** Lsp
+set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
+#+begin_src emacs-lisp
+(setq lsp-idle-delay 0.35)
+(setq lsp-semantic-tokens-honor-refresh-requests t); always auto refresh
 #+end_src
 ** C/C++
 *** lsp
@@ -250,13 +250,30 @@ always enable tree-sitter
                                 "--header-insertion-decorators=0"))
 
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+
+(defun c-mode-lsp-setup ()
+  (setq tree-sitter-mode nil)
+  (setq lsp-semantic-tokens-enable t)
+  )
+
+(add-hook 'c-mode-common-hook 'c-mode-lsp-setup)
 #+end_src
 *** format
 #+begin_src emacs-lisp
 ;; google c style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 #+end_src
-
+** Rust
+*** lsp
+#+begin_src emacs-lisp
+(defun rust-mode-lsp-setup ()
+  (setq tree-sitter-mode nil)
+  (setq lsp-semantic-tokens-enable t)
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  )
+;
+(add-hook 'rust-mode-hook 'rust-mode-lsp-setup)
+#+end_src
 * Org-mode
 ** General
 #+begin_src emacs-lisp
