@@ -39,6 +39,7 @@
 - [[#other][Other]]
   - [[#wsl-setup--chinese-input][WSL setup && Chinese input]]
   - [[#profile-startup][Profile startup]]
+  - [[#eaf][EAF]]
 
 * Misc
 ** Lexical-binding
@@ -198,12 +199,81 @@ a 80 ruler
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 ** Mode line
+doom modeline configuration （看起来 doom 的 modeline 还是有些卡卡的，所以暂时不用了）
 #+begin_src elisp
 (setq doom-modeline-highlight-modified-buffer-name t)
 (setq doom-modeline-major-mode-color-icon t)
 (setq doom-modeline-indent-info t)
 ;; used for modeline's font, see custom set face
 (setq doom-modeline-height 1)
+#+end_src
+
+custom modeline configuration
+*** line + column numbers display
+#+begin_src emacs-lisp
+(column-number-mode 1)
+#+end_src
+*** simplify the cursor position
+使用百分比 + top + bottom 这样来显示所处的位置对我来说多少有些不必要，所以取消之
+#+begin_src emacs-lisp
+(setq mode-line-position
+      '(;; %p print percent of buffer above top of window, o Top, Bot or All
+        ;; (-3 "%p")
+        ;; %I print the size of the buffer, with kmG etc
+        ;; (size-indication-mode ("/" (-4 "%I")))
+        ;; " "
+        ;; %l print the current line number
+        ;; %c print the current column
+        (line-number-mode ("%l" (column-number-mode ":%c")))))
+#+end_src
+*** directory display
+#+begin_src emacs-lisp
+(defun shorten-directory (dir max-length)
+  "Show up to `max-length' characters of a directory name `dir'."
+  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+        (output ""))
+    (when (and path (equal "" (car path)))
+      (setq path (cdr path)))
+    (while (and path (< (length output) (- max-length 4)))
+      (setq output (concat (car path) "/" output))
+      (setq path (cdr path)))
+    (when path
+      (setq output (concat ".../" output)))
+    output))
+
+(defvar mode-line-directory
+  '(:propertize
+    (:eval (if (buffer-file-name) (concat " " (shorten-directory default-directory 20)) " "))
+    face mode-line-directory)
+  "Formats the current directory.")
+(put 'mode-line-directory 'risky-local-variable t)
+#+end_src
+
+*** hide some minor mode
+#+begin_src emacs-lisp
+; TODO
+#+end_src
+*** bind it together
+#+begin_src emacs-lisp
+(setq-default mode-line-format
+              '("%e"
+                mode-line-front-space
+                mode-line-mule-info ; encoding
+                mode-line-client
+                mode-line-modified
+                ;; mode-line-remote -- no need to indicate this specially
+                ;; mode-line-frame-identification -- this is for text-mode emacs only
+                " "
+                ;mode-line-directory
+                mode-line-buffer-identification
+                " "
+                mode-line-position
+                ;;(vc-mode vc-mode)  -- I use magit, not vc-mode
+                (flycheck-mode flycheck-mode-line)
+                " "
+                mode-line-modes
+                mode-line-misc-info
+                mode-line-end-spaces))
 #+end_src
 * Global enable mode
 #+begin_src emacs-lisp
