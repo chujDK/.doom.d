@@ -304,10 +304,35 @@ enable tree-sitter for needed language
 (add-hook 'go-mode-hook #'tree-sitter-hl-mode)
 #+end_src
 ** Lsp
-set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
+I use lsp-mode to highlight the code. use lsp-bridge to provide the complement.
+*** lsp-mode
+set lsp-idle-delay from 0.5 to 0.25 to make it looks faster
 #+begin_src emacs-lisp
-(setq lsp-idle-delay 0.35)
+(setq lsp-idle-delay 0.25)
 (setq lsp-semantic-tokens-honor-refresh-requests t); always auto refresh
+
+; disable the lsp-mode's completion
+(setq lsp-completion-provider :none)
+#+end_src
+
+*** lsp-bridge
+use lsp-bridge to do the completion
+#+begin_src emacs-lisp
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(require 'lsp-bridge)
+(setq lsp-bridge-enable-hover-diagnostic t)
+(global-lsp-bridge-mode)
+
+; disable the diagnostic
+(setq lsp-bridge-enable-diagnostics nil)
+#+end_src
+
+**** key bindings
+#+begin_src emacs-lisp
+(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-j") 'acm-select-next)
+(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-k") 'acm-select-prev)
 #+end_src
 ** C/C++
 *** lsp
