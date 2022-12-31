@@ -365,6 +365,7 @@ use lsp-bridge to do the completion
   (setq tree-sitter-mode nil)
   (setq lsp-semantic-tokens-enable t)
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  (highlight-indent-guides-mode -1) ; disable highlight indent in rust mode
   )
 ;
 (add-hook 'rust-mode-hook 'rust-mode-lsp-setup)
