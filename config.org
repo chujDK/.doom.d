@@ -427,13 +427,32 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
   (setq rime-user-data-dir "~/.doom.d/rime")
   ;; 在 evil-normal-state 中、在英文字母后面以及代码等情况下中自动使用英文
   (setq rime-disable-predicates
-      '(rime-predicate-evil-mode-p
-        rime-predicate-after-alphabet-char-p
-        rime-predicate-punctuation-after-space-cc-p
-        rime-predicate-space-after-cc-p
-        rime-predicate-current-uppercase-letter-p
-        rime-predicate-after-ascii-char-p
-        rime-predicate-prog-in-code-p))
+        '(rime-predicate-evil-mode-p
+          rime-predicate-after-alphabet-char-p
+          rime-predicate-punctuation-after-space-cc-p
+          rime-predicate-space-after-cc-p
+          rime-predicate-current-uppercase-letter-p
+          rime-predicate-after-ascii-char-p
+          rime-predicate-prog-in-code-p
+          rime-predicate-punctuation-line-begin-p
+          ))
+
+  (defun rime-auto-change-punctuation-after-inline-mode ()
+    "如果当前处于 rime enable 的状态，并且光标的前两个字符为半角标点符号加空格，则将前两个符号替换为一个对应的全角标点。"
+    (if (and (rime-mode) (> (point) 2))
+        (let ((punc  (char-before (- (point) 1)))
+              (blank (char-before)))
+          (if (= blank (string-to-char " "))
+              (cond
+               ((= punc ?,) (progn (delete-char -2) (insert "，")))
+               ((= punc ?.) (progn (delete-char -2) (insert "。")))
+               ((= punc ?\;) (progn (delete-char -2) (insert "；")))
+               ((= punc ?\?) (progn (delete-char -2) (insert "？")))
+               ((= punc ?!) (progn (delete-char -2) (insert "！")))
+               ((= punc ?\() (progn (delete-char -2) (insert "（")))
+               ((= punc ?\)) (progn (delete-char -2) (insert "）"))))))))
+
+  (add-hook! rime-active-mode #'rime-auto-change-punctuation-after-inline-mode)
 
   ;; org paste image from windows host
   (setq org-startup-with-inline-images t)
