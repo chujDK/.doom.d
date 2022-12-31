@@ -37,7 +37,7 @@
   - [[#for-export][For export]]
 - [[#key-bindings][Key bindings]]
 - [[#other][Other]]
-  - [[#wsl-setup--chinese-input][WSL setup && Chinese input]]
+  - [[#wsl-setup--chinese-input-rime][WSL setup && Chinese input (rime)]]
   - [[#profile-startup][Profile startup]]
   - [[#eaf][EAF]]
 
@@ -408,7 +408,7 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
       "<tab>" #'company-complete-selection)
 #+end_src
 * Other
-** WSL setup && Chinese input
+** WSL setup && Chinese input (rime)
 + 添加了粘贴图片的支持
 + 使用 rime 输入法，并且自动在特定情况下使用临时英文输入
 
@@ -471,16 +471,16 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
             (wsl-to-windows-path target-file))
            (ps-script
             (concat "(Get-Clipboard -Format image).Save('" windows-path "')")))
-           (powershell ps-script)
+      (powershell ps-script)
 
-           (if (file-exists-p target-file)
-               (progn (insert (concat "[[" target-file "]]"))
-                      (org-display-inline-images)
-                      (message (concat "saving to " ps-script "..."))
-                      )
-             (user-error
-              "Pasting the image failed.."))
-           ))
+      (if (file-exists-p target-file)
+          (progn (insert (concat "[[" target-file "]]"))
+                 (org-display-inline-images)
+                 (message (concat "saving to " ps-script "..."))
+                 )
+        (user-error
+         "Pasting the image failed.."))
+      ))
 
   (defun wsl-to-windows-path (path)
     "Conver a wsl unix path to its windows path"
@@ -494,7 +494,7 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
     (call-process "powershell" nil nil nil
                   "-noprofile"
                   "-Command" (concat "& {" script "}")))
-)
+  )
 #+end_src
 ** Profile startup
 在一般情况下，注释下面的代码
