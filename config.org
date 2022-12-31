@@ -414,3 +414,20 @@ set lsp-idle-delay from 0.5 to 0.35 to make it looks faster
 ;(require 'benchmark-init)
 ;(add-hook 'doom-first-input-hook #'benchmark-init/deactivate)
 #+end_src
+** EAF
+使用 eaf ，主要是为了他的浏览器，不过试用之后，仍然感觉不是很满足个人需求，暂时先不用了
+#+begin_src emacs-lisp
+;(use-package eaf)
+;
+;(setq env-proxy-ip-port-list (split-string (substring (getenv "http_proxy") 7) "\\:"))
+;(setq eaf-proxy-type "http")
+;(setq eaf-proxy-host (car env-proxy-ip-port-list))
+;(setq eaf-proxy-port (car (cdr env-proxy-ip-port-list)))
+;
+;(require 'eaf-system-monitor)
+;(require 'eaf-image-viewer)
+;(require 'eaf-markdown-previewer)
+;(require 'eaf-browser)
+;(require 'eaf-rss-reader)
+;(require 'eaf-pdf-viewer)
+#+end_src

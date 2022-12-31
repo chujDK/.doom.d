@@ -14,6 +14,16 @@
 ;; profile the startup
 (package! benchmark-init)
 
+;; eaf
+;; (package! eaf
+;;    :recipe
+;;    (:host github :repo "emacs-eaf/emacs-application-framework" :files ("*")))
+
+;; lsp-bridge, i use it to complete
+(package! lsp-bridge
+  :recipe
+  (:host github :repo "manateelazycat/lsp-bridge" :files ("*")))
+
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
