@@ -28,8 +28,10 @@
   - [[#prog-mode-hook][prog-mode hook]]
   - [[#syntax-highlight][Syntax highlight]]
   - [[#lsp][Lsp]]
+  - [[#company-mode][company mode]]
   - [[#cc][C/C++]]
   - [[#rust][Rust]]
+  - [[#common-lisp][Common Lisp]]
 - [[#org-mode][Org-mode]]
   - [[#general][General]]
   - [[#storage][Storage]]
@@ -190,7 +192,7 @@ a 80 ruler
   '(mode-line-inactive ((t (:family "Noto Sans" :height 0.9))))
   ;; i decide to not enable whitespace mode by default
   ; set tab to the background color
-;  '(whitespace-tab ((t (:background "1e1e1e"))))
+  '(whitespace-tab ((t (:background "1e1e1e"))))
 ; (face-attribute 'default :background) => 1e1e1e
   )
 #+end_src
@@ -330,9 +332,17 @@ use lsp-bridge to do the completion
 #+end_src
 
 **** key bindings
+我使用键盘的 =magic-fn= （也就是 capslock 可以作为 FN 键使用，然后把 FN+hjkl bind 了一下，所以不需要配置快捷键，直接可以起到类似 ctrl-j/k 切换选项的效果了）
 #+begin_src emacs-lisp
-(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-j") 'acm-select-next)
-(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-k") 'acm-select-prev)
+;(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-j") 'acm-select-next)
+;(evil-define-key 'insert 'lsp-bridge-mode (kbd "C-k") 'acm-select-prev)
+#+end_src
+** company mode
+#+begin_src emacs-lisp
+(after! company
+  (setq company-global-modes '(not erc-mode circe-mode message-mode help-mode gud-mode vterm-mode c-mode c++-mode python-mode emacs-lisp-mode verilog-mode org-mode))
+  )
+(global-company-mode)
 #+end_src
 ** C/C++
 *** lsp
