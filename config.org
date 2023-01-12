@@ -380,6 +380,10 @@ use lsp-bridge to do the completion
 ;
 (add-hook 'rust-mode-hook 'rust-mode-lsp-setup)
 #+end_src
+** Common Lisp
+#+begin_src emacs-lisp
+(add-hook! lisp-mode-hook #'(lambda () (lsp-bridge-mode -1)))
+#+end_src
 * Org-mode
 ** General
 #+begin_src emacs-lisp
