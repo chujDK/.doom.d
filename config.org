@@ -340,7 +340,7 @@ use lsp-bridge to do the completion
 ** company mode
 #+begin_src emacs-lisp
 (after! company
-  (setq company-global-modes '(not erc-mode circe-mode message-mode help-mode gud-mode vterm-mode c-mode c++-mode python-mode emacs-lisp-mode verilog-mode org-mode))
+  (setq company-global-modes '(not erc-mode circe-mode message-mode help-mode gud-mode vterm-mode c-mode c++-mode python-mode emacs-lisp-mode verilog-mode org-mode rust-mode))
   )
 (global-company-mode)
 #+end_src
